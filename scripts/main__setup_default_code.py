@@ -22,6 +22,10 @@ if __name__ == "__main__":
                         help="Overwrite files if the file is not updated or the"
                              "file does not exist. If True, overwites all files."
                              "Default: False")
+    parser.add_argument("-c", "--count", type=int,
+                        default=-1,
+                        help="Number of problems to retrieve. Default: -1."
+                             "If -1, all problems are retrieved")
     parser.add_argument("-q", "--quiet", action="store_true",
                         default=False,
                         help="Suppress verbose messages. Default: False")
@@ -35,7 +39,8 @@ if __name__ == "__main__":
         leetcode_api = LeetCodeApi(quiet=args.quiet)
         algorithm_problems, _ = leetcode_api.get_algorithm_problems(force=False)
         algorithm_problems.sort(key=lambda x: int(x.identifier), reverse=True)
-        number_of_problems = 8
+        number_of_problems = len(
+            algorithm_problems) if args.count == -1 else args.count
         for problem in algorithm_problems[:number_of_problems]:
             print(problem)
         submit_directory = "..\\platforms\\leetcode\\practice"
