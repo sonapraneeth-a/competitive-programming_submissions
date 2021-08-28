@@ -1,8 +1,8 @@
 ## Build directories
-[Bb]uild*/
+[Bb]uild/*
 
 ## Executable directories
-*[Bb]in*/
+*[Bb]in/*
 
 ## Script files
 */[Ss]cripts/*run.*
