@@ -49,7 +49,7 @@ namespace solution_01 {
  * Status: Accepted. 55 / 55 test cases passed.
  * Runtime: 268 ms, faster than 29.35% of C++ online submissions
  * Memory usage: 10.1 MB, less than 78.43% of C++ online submissions
- * Time complexity: O(n^2), where n is size of nums
+ * Time complexity: O(t*n^2), where t is number of tests and n is size of nums
  * Space complexity: O(1)
  * Tags: Brute force
  * Categories: Array
@@ -97,7 +97,7 @@ namespace solution_02 {
  * Status: Accepted. 55 / 55 test cases passed.
  * Runtime: 14 ms, faster than 51.10% of C++ online submissions
  * Memory usage: 10.5 MB, less than 63.63% of C++ online submissions
- * Time complexity: O(n*log(n) + n) ~ O(n*log(n)), where n is size of nums
+ * Time complexity: O(t*(n*log(n) + n)) ~ O(t*n*log(n)), where t is number of tests and n is size of nums
  * Space complexity: O(n), where n is size of nums
  * Tags: Sort, Two pointers
  * Categories: Array
@@ -180,7 +180,7 @@ namespace solution_03 {
  * Status: Accepted. 55 / 55 test cases passed.
  * Runtime: 22 ms, faster than 38.27% of C++ online submissions
  * Memory usage: 14.2 MB, less than 5.75% of C++ online submissions
- * Time complexity: O(n+n) ~ O(n), where n is size of nums
+ * Time complexity: O(t*(n+n)) ~ O(t*n), where t is number of tests and n is size of nums
  * Space complexity: O(n), where n is size of nums
  * Tags: Two pass
  * Categories: Array, Hashmap
@@ -244,7 +244,7 @@ namespace solution_04 {
  * Status: Accepted. 55 / 55 test cases passed.
  * Runtime: 23 ms, faster than 38.06% of C++ online submissions
  * Memory usage: 10.8 MB, less than 53.29% of C++ online submissions
- * Time complexity: O(n), where n is size of nums
+ * Time complexity: O(t*n), where t is number of tests and n is size of nums
  * Space complexity: O(n), where n is size of nums
  * Tags: One pass
  * Categories: Array, Hashmap
