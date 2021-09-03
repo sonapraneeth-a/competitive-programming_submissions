@@ -215,7 +215,7 @@ def read_solutions(lines: List[str], idx: int) -> List[List[str]]:
     return infos
 
 
-def read_solutions_file(problem: LeetCodeProblem) -> Solution:
+def read_solutions_file(problem: LeetCodeProblem) -> List[Solution]:
     problem_directory = str(problem.identifier) + "__" + problem.slug.lower()
     output_directory = "..\\platforms\\leetcode\\practice"
     file = \
@@ -227,25 +227,30 @@ def read_solutions_file(problem: LeetCodeProblem) -> Solution:
     lines = fp.readlines()
     fp.close()
     idx = 0
-    solution = Solution(problem=problem)
     copyright_notice, idx = read_copyright_notice(lines, idx)
     file_description, idx = read_file_description(lines, idx)
     changelog, idx = read_changelog(lines, idx)
     include_and_usings, idx = read_include_and_usings(lines, idx)
     solutions = read_solutions(lines, idx)
     # print(file_description)
-    submission_link = ""
-    status = ""
-    status_testcases = ""
-    runtime = ""
-    memory_usage = ""
-    time_complexity = ""
-    space_complexity = ""
-    tags = []
-    categories = []
-    notes = []
     solution_no = 1
+    solutions_for_problem = []
     for sol in solutions:
+        submission_link = ""
+        status = ""
+        status_testcases = ""
+        runtime = ""
+        runtime_value = ""
+        runtime_percentage = ""
+        memory_usage = ""
+        memory_usage_value = ""
+        memory_usage_percentage = ""
+        time_complexity = ""
+        space_complexity = ""
+        tags = []
+        categories = []
+        notes = []
+        code = []
         # print("Solution no: {0}".format(solution_no))
         number_of_solution_lines = len(sol)
         line_idx = 0
@@ -272,11 +277,11 @@ def read_solutions_file(problem: LeetCodeProblem) -> Solution:
                     "Memory usage:")[-1].strip().replace(
                     "of C++ online submissions", "")
             if "Time complexity" in line:
-                time_complexity = line.replace("*", "")
+                time_complexity = line.replace("*", "", 1)
                 time_complexity = time_complexity.split(
                     "Time complexity:")[-1].strip()
             if "Space complexity" in line:
-                space_complexity = line.replace("*", "")
+                space_complexity = line.replace("*", "", 1)
                 space_complexity = space_complexity.split(
                     "Space complexity:")[-1].strip()
             if "Tags" in line:
@@ -294,16 +299,25 @@ def read_solutions_file(problem: LeetCodeProblem) -> Solution:
                     notes.append(note)
                     line_idx += 1
                 break
+            if "class Solution" in line:
+                line_idx += 1
+                while "};" in sol[line_idx]:
+                    code.append(sol[line_idx])
+                    line_idx += 1
+                break
             line_idx += 1
-        # print("\t      Submission: '{0}'".format(submission_link))
-        # print("\t          Status: '{0}'".format(status))
-        # print("\t    Status tests: '{0}'".format(status_testcases))
-        # print("\t         Runtime: '{0}'".format(runtime))
-        # print("\t    Memory usage: '{0}'".format(memory_usage))
-        # print("\t Time complexity: '{0}'".format(time_complexity))
-        # print("\tSpace complexity: '{0}'".format(space_complexity))
-        # print("\t            Tags: '{0}'".format(",".join(tags)))
-        # print("\t      Categories: '{0}'".format(",".join(categories)))
-        # print("\t           Notes: '{0}'".format(";".join(notes)))
+        solution = Solution(problem=problem,
+                            identifier=solution_no,
+                            tags=tags,
+                            categories=categories,
+                            time_complexity=time_complexity,
+                            space_complexity=space_complexity,
+                            judge_runtime=runtime,
+                            judge_memory_usage=memory_usage,
+                            judge_submission_link=submission_link,
+                            judge_submission_status=status,
+                            judge_testcase_status=status_testcases,
+                            code=code)
         solution_no += 1
-    return solution
+        solutions_for_problem.append(solution)
+    return solutions_for_problem
