@@ -52,18 +52,41 @@ if __name__ == "__main__":
         problems_file = "..\\platforms\\leetcode\\PROBLEMS.md"
         problems_file_handle = open(problems_file, "w")
         problems_file_handle.write("# Problems\n\n")
+        problems_file_handle.write(
+            "> **Note:** Please do not modify this file. This file is "
+            "generated using `main__generate_readme.py`. Manual edits to this "
+            "file will be lost.\n\n")
         problems_file_handle.write("## Practice\n\n")
         readme_solutions = []
         heading_list = [
             "Problem",
+            "Problem difficulty",
             "Solution Id",
+            "Judge submission link",
+            "Solution status",
             "Time complexity",
             "Space complexity",
             "Judge time",  # (ms)",
             "Judge space",  # (MB)",
             "Tags",
-            "Categories"
+            "Categories",
+            "Number of tests passed",
+            "IsTemplate?"
         ]
+        submission_status_dict = {
+            "Accepted": "#009688",
+            "Time Limit Exceeded": "",
+            "Wrong Answer": "",
+            "Memory Limit Exceeded": "",
+            "Output Limit Exceeded": "",
+            "Runtime Error": "",
+            "": "#000000"
+        }
+        problem_difficulty_dict = {
+            "Easy": "rgb(67, 160, 71)",
+            "Medium": "rgb(239, 108, 0)",
+            "Hard": "rgb(233, 30, 99)",
+        }
         for problem in algorithm_problems:
             if problem.is_premium:
                 continue
@@ -80,14 +103,23 @@ if __name__ == "__main__":
                     readme_solutions.append([
                         "[" + str(problem.identifier) + ". " + problem.title +
                         "](" + problem.url + ")",
-                        "[" + str(solution.identifier) + "](" +
-                        solution.judge_submission_link + ")",
+                        "<span style=\"color: {0};\">{1}</span>"
+                            .format(problem_difficulty_dict[problem.difficulty],
+                                    problem.difficulty),
+                        str(solution.identifier),
+                        "[Link](" + solution.judge_submission_link + ")",
+                        "<span style=\"color: {0};\">{1}</span>"
+                            .format(submission_status_dict[
+                                        solution.judge_submission_status],
+                                    solution.judge_submission_status),
                         sanitize(str(solution.time_complexity)),
                         sanitize(str(solution.space_complexity)),
                         solution.judge_runtime_value,
                         solution.judge_memory_usage_value,
                         ",".join(solution.tags),
-                        ",".join(solution.categories)
+                        ",".join(solution.categories),
+                        solution.judge_testcase_status,
+                        "No"
                     ])
         line, underline = "|", "|"
         for column in heading_list:
