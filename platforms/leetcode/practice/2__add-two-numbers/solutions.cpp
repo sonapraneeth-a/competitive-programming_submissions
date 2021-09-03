@@ -49,7 +49,7 @@ namespace solution_01 {
  * Status: Accepted. 1568 / 1568 test cases passed.
  * Runtime: 28 ms, faster than 70.16% of C++ online submissions
  * Memory usage: 75.3 MB, less than 11.07% of C++ online submissions
- * Time complexity: O(t*(m+n+max(m,n))) ~ O(t*(m+n)), where t is number of tests, m is size of l1, n is size of l2
+ * Time complexity: O(t*(m+n)), where t is number of tests, m is size of l1, n is size of l2
  * Space complexity: O(m+n), where m is size of l1 and n is size of l2
  * Tags: Queue, Two pass
  * Categories: Linked list

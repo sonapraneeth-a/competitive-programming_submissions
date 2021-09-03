@@ -97,7 +97,7 @@ namespace solution_02 {
  * Status: Accepted. 55 / 55 test cases passed.
  * Runtime: 14 ms, faster than 51.10% of C++ online submissions
  * Memory usage: 10.5 MB, less than 63.63% of C++ online submissions
- * Time complexity: O(t*(n*log(n) + n)) ~ O(t*n*log(n)), where t is number of tests and n is size of nums
+ * Time complexity: O(t*n*log(n)), where t is number of tests and n is size of nums
  * Space complexity: O(n), where n is size of nums
  * Tags: Sort, Two pointers
  * Categories: Array
@@ -180,7 +180,7 @@ namespace solution_03 {
  * Status: Accepted. 55 / 55 test cases passed.
  * Runtime: 22 ms, faster than 38.27% of C++ online submissions
  * Memory usage: 14.2 MB, less than 5.75% of C++ online submissions
- * Time complexity: O(t*(n+n)) ~ O(t*n), where t is number of tests and n is size of nums
+ * Time complexity: O(t*n), where t is number of tests and n is size of nums
  * Space complexity: O(n), where n is size of nums
  * Tags: Two pass
  * Categories: Array, Hashmap
