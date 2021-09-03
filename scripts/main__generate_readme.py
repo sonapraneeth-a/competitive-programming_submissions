@@ -64,15 +64,15 @@ if __name__ == "__main__":
             "Tags",
             "Categories"
         ]
-        for problem in algorithm_problems[:2]:
+        for problem in algorithm_problems:
             if problem.is_premium:
                 continue
             # print("Checking solutions.cpp for {0}. {1}"
             #       .format(problem.identifier, problem.title))
-            is_attempted = check_file(
+            is_attempted, _, _ = check_file(
                 problem, submit_directory, "solutions.cpp",
                 root + template_solutions_file_path)
-            if is_attempted:
+            if is_attempted is True:
                 print("Attempted problem: {0}. {1}".format(
                     problem.identifier, problem.title))
                 solutions_for_problem = read_solutions_file(problem=problem)

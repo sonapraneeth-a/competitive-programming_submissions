@@ -106,10 +106,10 @@ def create_file(
 
 
 def check_file(
-    problem: LeetCodeProblem,
-    output_directory: str,
-    file_type: str,
-    template_file_path: str) -> (bool, str, str):
+        problem: LeetCodeProblem,
+        output_directory: str,
+        file_type: str,
+        template_file_path: str) -> (bool, str, str):
     problem_directory = str(problem.identifier) + "__" + problem.slug.lower()
     output_file_path = \
         output_directory + "/" + problem_directory + "/" + file_type
@@ -117,14 +117,14 @@ def check_file(
         print("Template filepath: {0} doesn't exist".format(
             template_file_path))
         exit(-1)
-    template_file_size = math.ceil(1.5 * os.path.getsize(template_file_path))
-    # print("Template filepath: {0}, size: {1}"
-    #       .format(template_file_path, template_file_size))
-    # print("Output file path: {0}, size: {1}".format(output_file_path,
-    #     os.path.getsize(output_file_path)))
+    template_file_size = math.ceil(2.25 * os.path.getsize(template_file_path))
     is_attempted = False
     if os.path.exists(output_file_path) and \
-        os.path.getsize(output_file_path) >= template_file_size:
+            os.path.getsize(output_file_path) >= template_file_size:
+        # print("Template filepath: {0}, size: {1}"
+        #       .format(template_file_path, template_file_size))
+        # print("Output file path: {0}, size: {1}"
+        #       .format(output_file_path, os.path.getsize(output_file_path)))
         # print("File size: {0} {1}".format(
         #     problem_directory, os.path.getsize(output_file_path)))
         is_attempted = True
