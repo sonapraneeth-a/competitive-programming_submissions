@@ -82,7 +82,7 @@ def create_file(
     overwrite: bool = False) -> None:
     is_attempted, problem_directory, output_file_path = \
         check_file(problem, output_directory, file_type, template_file_path)
-    if not overwrite and is_attempted:
+    if is_attempted or not overwrite:
         print("File already setup for {0} for {1}. {2} at {3}".format(
             file_type, problem.identifier, problem.title, output_file_path))
     else:
@@ -106,10 +106,10 @@ def create_file(
 
 
 def check_file(
-        problem: LeetCodeProblem,
-        output_directory: str,
-        file_type: str,
-        template_file_path: str) -> (bool, str, str):
+    problem: LeetCodeProblem,
+    output_directory: str,
+    file_type: str,
+    template_file_path: str) -> (bool, str, str):
     problem_directory = str(problem.identifier) + "__" + problem.slug.lower()
     output_file_path = \
         output_directory + "/" + problem_directory + "/" + file_type
@@ -120,7 +120,7 @@ def check_file(
     template_file_size = math.ceil(2.25 * os.path.getsize(template_file_path))
     is_attempted = False
     if os.path.exists(output_file_path) and \
-            os.path.getsize(output_file_path) >= template_file_size:
+        os.path.getsize(output_file_path) >= template_file_size:
         # print("Template filepath: {0}, size: {1}"
         #       .format(template_file_path, template_file_size))
         # print("Output file path: {0}, size: {1}"
