@@ -4,7 +4,7 @@ from lib.problem.base import Problem
 
 
 @total_ordering
-class LeetCodeProblem(Problem):
+class BinarySearchProblem(Problem):
     def __init__(self,
                  identifier: str,
                  title: str,
@@ -26,18 +26,18 @@ class LeetCodeProblem(Problem):
         :param chapter_name: Sub-part of the contest. Example week name in
                              Explore
         :param difficulty: Level of difficulty of the problem
-        :param is_premium: Is the problem a leetcode premium?
+        :param is_premium: Is the problem a binarysearch premium?
         :param status:
-        :param solution_slug: Link for leetcode solution article (if exists)
+        :param solution_slug: Link for binarysearch solution article (if exists)
         """
-        url = "https://leetcode.com/{0}problems/{1}" \
+        url = "https://binarysearch.com/{0}problems/{1}" \
             .format(
                 contest_name.lower().replace(" ", "-") + "/"
                 if len(contest_name) != 0 else "",
                 slug
             )
         super().__init__(
-            platform="LeetCode",
+            platform="BinarySearch",
             identifier=identifier,
             title=title,
             url=url,
@@ -63,7 +63,7 @@ class LeetCodeProblem(Problem):
     def __str__(self):
         answer = ""
         answer += "--- Problem ---\n"
-        answer += "      ID: {0}\n".format(self.identifier)
-        answer += "   Title: {0}\n".format(self.title)
-        answer += "Solution: {0}\n".format(self.solution_slug)
+        answer += "        ID: {0}\n".format(self.identifier)
+        answer += "     Title: {0}\n".format(self.title)
+        answer += "Difficulty: {0}\n".format(self.difficulty)
         return answer

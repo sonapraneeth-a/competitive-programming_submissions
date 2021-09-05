@@ -5,14 +5,16 @@ import shutil
 from datetime import date
 from typing import List
 
+from lib.apis.binarysearch import BinarySearchApi
 from lib.apis.leetcode import LeetCodeApi
-from lib.problem.leetcode import LeetCodeProblem
+from lib.problem.base import Problem
 from lib.solution.base import Solution
 from markdownify import markdownify as md
 
 
-def update_file_line(line: str, problem: LeetCodeProblem) -> str:
+def update_file_line(line: str, problem: Problem) -> str:
     leetcode = LeetCodeApi(quiet=True)
+    binarysearch = BinarySearchApi(quiet=True)
     today = date.today()
     expanded_date = today.strftime("%d %B %Y")
     short_date = today.strftime("%d-%m-%Y")
@@ -23,11 +25,20 @@ def update_file_line(line: str, problem: LeetCodeProblem) -> str:
     problem_title = problem.title
     problem_difficulty = problem.difficulty
     problem_difficulty_color = ""
-    for idx in range(len(leetcode.levels)):
-        if problem_difficulty == leetcode.levels[idx]:
-            problem_difficulty_color = leetcode.colors[idx]
-            break
+    if problem.platform.lower() == "leetcode":
+        for idx in range(len(leetcode.levels)):
+            if problem_difficulty == leetcode.levels[idx]:
+                problem_difficulty_color = leetcode.colors[idx]
+                break
     update_line = line
+    question_keywords = [
+        "PROBLEM_CONTENT", "PROBLEM_TAGS", "PROBLEM_CODE_SNIPPET"]
+    question = None
+    if any(keyword in line for keyword in question_keywords):
+        if problem.platform.lower() == "leetcode":
+            question = leetcode.get_question_info(problem=problem)
+        elif problem.platform.lower() == "binarysearch":
+            question = binarysearch.get_question_info(problem=problem)
     if "EXPANDED_DATE" in update_line:
         update_line = update_line.replace("EXPANDED_DATE", expanded_date)
     if "AUTHOR_ALIAS" in update_line:
@@ -53,29 +64,38 @@ def update_file_line(line: str, problem: LeetCodeProblem) -> str:
         update_line = update_line.replace(
             "PROBLEM_PREMIUM", "Yes" if problem.is_premium else "No")
     if "PROBLEM_CONTENT" in update_line:
+        content = ""
         if not problem.is_premium:
-            question = leetcode.get_question_info(question_slug=problem.slug)
-            content = md(question['question']['content'], heading_style="ATX")
+            if problem.platform.lower() == "leetcode":
+                content = md(question['question']['content'], heading_style="ATX")
+            elif problem.platform.lower() == "binarysearch":
+                content = md(question[0]['content'], heading_style="ATX")
             update_line = content
     if "PROBLEM_TAGS" in update_line:
-        question = leetcode.get_question_info(question_slug=problem.slug)
-        content = question['question']['topicTags']
-        tags = ", ".join([info['name'] for info in content])
+        tags = []
+        if problem.platform.lower() == "leetcode":
+            content = question['question']['topicTags']
+            tags = ", ".join([info['name'] for info in content])
+        elif problem.platform.lower() == "binarysearch":
+            content = question[0]['topics']
+            tags = ", ".join([info['tag'] for info in content])
         update_line = update_line.replace("PROBLEM_TAGS", tags)
     if "PROBLEM_SIMILAR_QUESTIONS" in update_line:
         pass
     if "PROBLEM_CODE_SNIPPET" in update_line:
-        question = leetcode.get_question_info(question_slug=problem.slug)
-        content = question['question']['codeSnippets']
-        for info in content:
-            if info['langSlug'] == "cpp":
-                update_line = info['code']
-                break
+        if problem.platform.lower() == "leetcode":
+            content = question['question']['codeSnippets']
+            for info in content:
+                if info['langSlug'] == "cpp":
+                    update_line = info['code']
+                    break
+        elif problem.platform.lower() == "binarysearch":
+            update_line = question[0]['boilerplate']['cpp']
     return update_line
 
 
 def create_file(
-    problem: LeetCodeProblem,
+    problem: Problem,
     output_directory: str,
     file_type: str,
     template_file_path: str,
@@ -106,7 +126,7 @@ def create_file(
 
 
 def check_file(
-    problem: LeetCodeProblem,
+    problem: Problem,
     output_directory: str,
     file_type: str,
     template_file_path: str) -> (bool, str, str):
@@ -215,7 +235,7 @@ def read_solutions(lines: List[str], idx: int) -> List[List[str]]:
     return infos
 
 
-def read_solutions_file(problem: LeetCodeProblem) -> List[Solution]:
+def read_solutions_file(problem: Problem) -> List[Solution]:
     problem_directory = str(problem.identifier) + "__" + problem.slug.lower()
     output_directory = "..\\platforms\\leetcode\\practice"
     file = \

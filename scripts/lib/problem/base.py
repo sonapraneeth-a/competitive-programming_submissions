@@ -8,7 +8,8 @@ class Problem(object):
                  source_type: str,
                  contest_name: str = "",
                  chapter_name: str = "",
-                 difficulty: str = ""):
+                 difficulty: str = "",
+                 is_premium: bool = False):
         """
 
         :param platform: Platform in which problem appeared
@@ -29,6 +30,7 @@ class Problem(object):
         self.title = title
         self.url = url
         self.slug = slug
+        self.is_premium = is_premium
         self.contest_name = contest_name.lower().replace(" ", "_")
         self.explore_name = self.contest_name
         self.chapter_name = chapter_name.lower().replace(" ", "_")

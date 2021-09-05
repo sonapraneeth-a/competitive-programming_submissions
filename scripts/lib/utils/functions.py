@@ -63,4 +63,4 @@ def write_bib_file(platform: str,
     with open(filename, 'w') as outfile:
         for problem in problems:
             bib_string = create_bib_string(platform, problem)
-            outfile.write(bib_string)
+            outfile.write(bib_string.encode('utf8').decode('ascii', 'ignore'))

@@ -5,6 +5,8 @@ import time
 from typing import Dict, List
 
 import requests
+
+from lib.problem.base import Problem
 from lib.problem.leetcode import LeetCodeProblem
 
 
@@ -13,6 +15,7 @@ class LeetCodeApi:
 
     Uses graphql requests/plain requests
     """
+
     def __init__(self, quiet: bool = True):
         """
 
@@ -39,7 +42,7 @@ class LeetCodeApi:
                        'rgb(239, 108, 0)', 'rgb(233, 30, 99)']
         self.quiet = quiet
 
-    def get_question_info(self, question_slug: str,
+    def get_question_info(self, problem: Problem,
                           force: bool = False) -> Dict:
         """
 
@@ -52,13 +55,14 @@ class LeetCodeApi:
         -------
         Dict:
         """
-        filename = "logs/leetcode/questions/{0}.json".format(question_slug)
+        filename = "logs/leetcode/questions/{0}__{1}.json".format(
+            problem.identifier, problem.slug)
         current_timestamp = time.mktime(datetime.today().timetuple())
         response = None
         if force or not os.path.exists(filename) or \
             (os.path.exists(filename) and
              current_timestamp - os.path.getmtime(filename) > 604800):
-            query = '{"operationName":"questionData","variables":{"titleSlug":\"' + question_slug + '\"},"query":"query questionData($titleSlug: String!) {\\n  question(titleSlug: $titleSlug) {\\n    questionId\\n    questionFrontendId\\n    boundTopicId\\n    title\\n    titleSlug\\n    content\\n    translatedTitle\\n    translatedContent\\n    isPaidOnly\\n    difficulty\\n    likes\\n    dislikes\\n    isLiked\\n    similarQuestions\\n    exampleTestcases\\n    contributors {\\n      username\\n      profileUrl\\n      avatarUrl\\n      __typename\\n    }\\n    topicTags {\\n      name\\n      slug\\n      translatedName\\n      __typename\\n    }\\n    companyTagStats\\n    codeSnippets {\\n      lang\\n      langSlug\\n      code\\n      __typename\\n    }\\n    stats\\n    hints\\n    solution {\\n      id\\n      canSeeDetail\\n      paidOnly\\n      hasVideoSolution\\n      paidOnlyVideo\\n      __typename\\n    }\\n    status\\n    sampleTestCase\\n    metaData\\n    judgerAvailable\\n    judgeType\\n    mysqlSchemas\\n    enableRunCode\\n    enableTestMode\\n    enableDebugger\\n    envInfo\\n    libraryUrl\\n    adminUrl\\n    __typename\\n  }\\n}\\n"}'
+            query = '{"operationName":"questionData","variables":{"titleSlug":\"' + problem.slug + '\"},"query":"query questionData($titleSlug: String!) {\\n  question(titleSlug: $titleSlug) {\\n    questionId\\n    questionFrontendId\\n    boundTopicId\\n    title\\n    titleSlug\\n    content\\n    translatedTitle\\n    translatedContent\\n    isPaidOnly\\n    difficulty\\n    likes\\n    dislikes\\n    isLiked\\n    similarQuestions\\n    exampleTestcases\\n    contributors {\\n      username\\n      profileUrl\\n      avatarUrl\\n      __typename\\n    }\\n    topicTags {\\n      name\\n      slug\\n      translatedName\\n      __typename\\n    }\\n    companyTagStats\\n    codeSnippets {\\n      lang\\n      langSlug\\n      code\\n      __typename\\n    }\\n    stats\\n    hints\\n    solution {\\n      id\\n      canSeeDetail\\n      paidOnly\\n      hasVideoSolution\\n      paidOnlyVideo\\n      __typename\\n    }\\n    status\\n    sampleTestCase\\n    metaData\\n    judgerAvailable\\n    judgeType\\n    mysqlSchemas\\n    enableRunCode\\n    enableTestMode\\n    enableDebugger\\n    envInfo\\n    libraryUrl\\n    adminUrl\\n    __typename\\n  }\\n}\\n"}'
             response = requests.post(
                 'https://leetcode.com/graphql',
                 headers=self.headers,
@@ -81,7 +85,7 @@ class LeetCodeApi:
         return question
 
     def get_algorithm_problems(self, force: bool = False) -> (
-            List[LeetCodeProblem], Dict):
+        List[LeetCodeProblem], Dict):
         """
 
         Parameters
