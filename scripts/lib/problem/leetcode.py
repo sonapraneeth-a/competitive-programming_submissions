@@ -41,12 +41,12 @@ class LeetCodeProblem(Problem):
             identifier=identifier,
             title=title,
             url=url,
+            slug=slug,
             source_type=source_type,
             contest_name=contest_name,
             chapter_name=chapter_name,
             difficulty=difficulty
         )
-        self.slug = slug
         self.is_premium = is_premium
         self.solution_slug = solution_slug
         self.status = status

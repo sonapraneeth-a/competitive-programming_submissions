@@ -4,6 +4,7 @@ class Problem(object):
                  identifier: str,
                  title: str,
                  url: str,
+                 slug: str,
                  source_type: str,
                  contest_name: str = "",
                  chapter_name: str = "",
@@ -14,6 +15,7 @@ class Problem(object):
         :param identifier: a string used as a unique identifier for the problem
         :param title: Title of the problem
         :param url: URL location of the problem on the web
+        :param slug: Slug
         :param source_type: Practice/Contest/Explore etc?
         :param contest_name: Name of the contest in which the problem appeared.
                              Empty if source_type is not Contest
@@ -26,6 +28,7 @@ class Problem(object):
         self.identifier = identifier
         self.title = title
         self.url = url
+        self.slug = slug
         self.contest_name = contest_name.lower().replace(" ", "_")
         self.explore_name = self.contest_name
         self.chapter_name = chapter_name.lower().replace(" ", "_")
