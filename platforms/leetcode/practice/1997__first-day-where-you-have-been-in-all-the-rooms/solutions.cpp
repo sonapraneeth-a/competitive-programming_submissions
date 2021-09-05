@@ -14,11 +14,11 @@
 /**
  * FILE DESCRIPTION
  *
- *        Filename: 199__binary-tree-right-side-view/solutions.cpp
+ *        Filename: 1997__first-day-where-you-have-been-in-all-the-rooms/solutions.cpp
  *      Created on: 05 September 2021
  *   Last modified: 05 September 2021
  *          Author: sonapraneeth_a
- *     Description: LeetCode submission for 'Binary Tree Right Side View' problem
+ *     Description: LeetCode submission for 'First Day Where You Have Been in All the Rooms' problem
  */
 
 /**
@@ -56,20 +56,9 @@ namespace solution_01 {
  *  -
  */
 // clang-format on
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
-    vector<int> rightSideView(TreeNode* root) {
+    int firstDayBeenInAllRooms(vector<int>& nextVisit) {
         
     }
 };

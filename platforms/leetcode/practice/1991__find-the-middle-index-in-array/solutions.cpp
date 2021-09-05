@@ -14,11 +14,11 @@
 /**
  * FILE DESCRIPTION
  *
- *        Filename: 199__binary-tree-right-side-view/solutions.cpp
+ *        Filename: 1991__find-the-middle-index-in-array/solutions.cpp
  *      Created on: 05 September 2021
  *   Last modified: 05 September 2021
  *          Author: sonapraneeth_a
- *     Description: LeetCode submission for 'Binary Tree Right Side View' problem
+ *     Description: LeetCode submission for 'Find the Middle Index in Array' problem
  */
 
 /**
@@ -56,20 +56,9 @@ namespace solution_01 {
  *  -
  */
 // clang-format on
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
-    vector<int> rightSideView(TreeNode* root) {
+    int findMiddleIndex(vector<int>& nums) {
         
     }
 };
