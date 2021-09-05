@@ -29,6 +29,14 @@
  */
 // clang-format on
 
+#include <algorithm>
+#include <cstdint>
+#include <vector>
+
+using std::min;
+using std::sort;
+using std::vector;
+
 namespace solution_01 {
 // clang-format off
 /**
@@ -46,20 +54,28 @@ namespace solution_01 {
  *  -
  */
 // clang-format on
-// clang-format off
-/**
- * FUNCTION DESCRIPTION
- *
- * Time complexity:
- * Space complexity:
- * Additional notes
- *  -
- */
-// clang-format on
 class Solution {
-public:
+ public:
+    // clang-format off
+    /**
+     * FUNCTION DESCRIPTION
+     *
+     * Time complexity:
+     * Space complexity:
+     * Additional notes
+     *  -
+     */
+    // clang-format on
     int minimumDifference(vector<int>& nums, int k) {
-        
+        if (k == 1) {
+            return 0;
+        }
+        sort(begin(nums), end(nums));
+        int difference = INT32_MAX;
+        for (int idx = 0; idx + k - 1 < static_cast<int>(nums.size()); ++idx) {
+            difference = min(difference, nums[idx + k - 1] - nums[idx]);
+        }
+        return difference;
     }
 };
 }  // namespace solution_01

@@ -29,6 +29,18 @@
  */
 // clang-format on
 
+#include <stdint.h>
+
+#include <algorithm>
+#include <cstdint>
+#include <utility>
+#include <vector>
+
+using std::nth_element;
+using std::pair;
+using std::sort;
+using std::vector;
+
 namespace solution_01 {
 // clang-format off
 /**
@@ -46,20 +58,32 @@ namespace solution_01 {
  *  -
  */
 // clang-format on
-// clang-format off
-/**
- * FUNCTION DESCRIPTION
- *
- * Time complexity:
- * Space complexity:
- * Additional notes
- *  -
- */
-// clang-format on
 class Solution {
-public:
+ public:
+    // clang-format off
+    /**
+     * FUNCTION DESCRIPTION
+     *
+     * Time complexity:
+     * Space complexity:
+     * Additional notes
+     *  -
+     */
+    // clang-format on
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
-        
+        vector<pair<std::uint64_t, int>> distances;
+        int points_sz = static_cast<int>(points_sz);
+        for (int points_i = 0; points_i < points_sz; ++points_i) {
+            auto     x        = static_cast<uint64_t>(points[points_i][0]);
+            auto     y        = static_cast<uint64_t>(points[points_i][1]);
+            uint64_t distance = (x * x) + (y * y);
+            distances.emplace_back(distance, points_i);
+        }
+        sort(begin(distances), end(distances));
+        vector<vector<int>> answer;
+        for (int distances_i = 0; distances_i < k; ++distances_i) {
+        }
+        return answer;
     }
 };
 }  // namespace solution_01

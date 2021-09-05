@@ -29,6 +29,17 @@
  */
 // clang-format on
 
+#include <array>
+#include <functional>
+#include <string>
+#include <utility>
+#include <vector>
+
+using std::array;
+using std::function;
+using std::string;
+using std::vector;
+
 namespace solution_01 {
 // clang-format off
 /**
@@ -57,26 +68,75 @@ namespace solution_01 {
  */
 // clang-format on
 class Trie {
-public:
-    /** Initialize your data structure here. */
-    Trie() {
-        
+ private:
+    struct TrieNode {
+        vector<TrieNode*> child;
+        explicit TrieNode(int char_size = 26) {
+            child.resize(char_size, nullptr);
+        }
+        bool is_end_of_word = false;
+        int  count          = 0;
+    };
+    TrieNode* _root              = nullptr;
+    // size of the alphabet
+    int                 _char_sz = 0;
+    function<int(char)> _char_to_idx_map;
+
+    void clear(TrieNode* _root) {
+        for (int idx = 0; idx < _char_sz; ++idx) {
+            if (_root->child[idx] != nullptr) {
+                clear(_root->child[idx]);
+            }
+        }
+        delete _root;
     }
-    
+
+ public:
+    /** Initialize your data structure here. */
+    Trie(
+        int                 char_size       = 26,
+        function<int(char)> char_to_idx_map = [](char c) { return c - 'a'; })
+        : _char_sz(char_size),
+          _char_to_idx_map(std::move(char_to_idx_map)),
+          _root(new TrieNode(char_size)) { }
+
     /** Inserts a word into the trie. */
     void insert(string word) {
-        
+        TrieNode* temp = _root;
+        for (char c : word) {
+            if (temp->child[_char_to_idx_map(c)] == nullptr) {
+                temp->child[_char_to_idx_map(c)] = new TrieNode(_char_sz);
+            }
+            temp = temp->child[_char_to_idx_map(c)];
+        }
+        temp->is_end_of_word = true;
+        ++temp->count;
     }
-    
+
     /** Returns if the word is in the trie. */
     bool search(string word) {
-        
+        TrieNode* temp = _root;
+        for (char c : word) {
+            if (temp->child[_char_to_idx_map(c)] == nullptr) {
+                return false;
+            }
+            temp = temp->child[_char_to_idx_map(c)];
+        }
+        return temp->is_end_of_word;
     }
-    
-    /** Returns if there is any word in the trie that starts with the given prefix. */
-    bool startsWith(string prefix) {
-        
+
+    bool startsWith(string word) {
+        TrieNode* temp = _root;
+        for (char c : word) {
+            if (temp->child[_char_to_idx_map(c)] == nullptr) {
+                return false;
+            }
+            temp = temp->child[_char_to_idx_map(c)];
+        }
+        return true;
     }
+
+    ~Trie() { clear(_root); }
 };
 
 /**
