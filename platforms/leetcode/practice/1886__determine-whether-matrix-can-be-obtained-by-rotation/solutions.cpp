@@ -15,8 +15,8 @@
  * FILE DESCRIPTION
  *
  *        Filename: 1886__determine-whether-matrix-can-be-obtained-by-rotation/solutions.cpp
- *      Created on: 27 August 2021
- *   Last modified: 27 August 2021
+ *      Created on: 05 September 2021
+ *   Last modified: 05 September 2021
  *          Author: sonapraneeth_a
  *     Description: LeetCode submission for 'Determine Whether Matrix Can Be Obtained By Rotation' problem
  */
@@ -25,7 +25,7 @@
  * CHANGELOG
  *
  * Date (DD-MM-YYYY)            Author               Update
- * 27-08-2021               sonapraneeth_a      - Creation of file
+ * 05-09-2021               sonapraneeth_a      - Creation of file
  */
 // clang-format on
 

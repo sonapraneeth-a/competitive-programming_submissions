@@ -15,8 +15,8 @@
  * FILE DESCRIPTION
  *
  *        Filename: 1594__maximum-non-negative-product-in-a-matrix/solutions.cpp
- *      Created on: 27 August 2021
- *   Last modified: 27 August 2021
+ *      Created on: 05 September 2021
+ *   Last modified: 05 September 2021
  *          Author: sonapraneeth_a
  *     Description: LeetCode submission for 'Maximum Non Negative Product in a Matrix' problem
  */
@@ -25,7 +25,7 @@
  * CHANGELOG
  *
  * Date (DD-MM-YYYY)            Author               Update
- * 27-08-2021               sonapraneeth_a      - Creation of file
+ * 05-09-2021               sonapraneeth_a      - Creation of file
  */
 // clang-format on
 

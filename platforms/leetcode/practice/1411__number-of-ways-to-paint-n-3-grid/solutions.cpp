@@ -15,8 +15,8 @@
  * FILE DESCRIPTION
  *
  *        Filename: 1411__number-of-ways-to-paint-n-3-grid/solutions.cpp
- *      Created on: 27 August 2021
- *   Last modified: 27 August 2021
+ *      Created on: 05 September 2021
+ *   Last modified: 05 September 2021
  *          Author: sonapraneeth_a
  *     Description: LeetCode submission for 'Number of Ways to Paint N × 3 Grid' problem
  */
@@ -25,7 +25,7 @@
  * CHANGELOG
  *
  * Date (DD-MM-YYYY)            Author               Update
- * 27-08-2021               sonapraneeth_a      - Creation of file
+ * 05-09-2021               sonapraneeth_a      - Creation of file
  */
 // clang-format on
 

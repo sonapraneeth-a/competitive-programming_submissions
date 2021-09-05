@@ -15,8 +15,8 @@
  * FILE DESCRIPTION
  *
  *        Filename: 1984__minimum-difference-between-highest-and-lowest-of-k-scores/solutions.cpp
- *      Created on: 30 August 2021
- *   Last modified: 30 August 2021
+ *      Created on: 05 September 2021
+ *   Last modified: 05 September 2021
  *          Author: sonapraneeth_a
  *     Description: LeetCode submission for 'Minimum Difference Between Highest and Lowest of K Scores' problem
  */
@@ -25,17 +25,9 @@
  * CHANGELOG
  *
  * Date (DD-MM-YYYY)            Author               Update
- * 30-08-2021               sonapraneeth_a      - Creation of file
+ * 05-09-2021               sonapraneeth_a      - Creation of file
  */
 // clang-format on
-
-#include <algorithm>
-#include <cstdint>
-#include <vector>
-
-using std::min;
-using std::sort;
-using std::vector;
 
 namespace solution_01 {
 // clang-format off
@@ -54,28 +46,20 @@ namespace solution_01 {
  *  -
  */
 // clang-format on
+// clang-format off
+/**
+ * FUNCTION DESCRIPTION
+ *
+ * Time complexity:
+ * Space complexity:
+ * Additional notes
+ *  -
+ */
+// clang-format on
 class Solution {
- public:
-    // clang-format off
-    /**
-     * FUNCTION DESCRIPTION
-     *
-     * Time complexity:
-     * Space complexity:
-     * Additional notes
-     *  -
-     */
-    // clang-format on
+public:
     int minimumDifference(vector<int>& nums, int k) {
-        if (k == 1) {
-            return 0;
-        }
-        sort(begin(nums), end(nums));
-        int difference = INT32_MAX;
-        for (int idx = 0; idx + k - 1 < static_cast<int>(nums.size()); ++idx) {
-            difference = min(difference, nums[idx + k - 1] - nums[idx]);
-        }
-        return difference;
+        
     }
 };
 }  // namespace solution_01

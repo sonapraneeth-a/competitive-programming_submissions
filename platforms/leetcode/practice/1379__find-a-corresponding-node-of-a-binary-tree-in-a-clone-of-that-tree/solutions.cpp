@@ -15,8 +15,8 @@
  * FILE DESCRIPTION
  *
  *        Filename: 1379__find-a-corresponding-node-of-a-binary-tree-in-a-clone-of-that-tree/solutions.cpp
- *      Created on: 27 August 2021
- *   Last modified: 27 August 2021
+ *      Created on: 05 September 2021
+ *   Last modified: 05 September 2021
  *          Author: sonapraneeth_a
  *     Description: LeetCode submission for 'Find a Corresponding Node of a Binary Tree in a Clone of That Tree' problem
  */
@@ -25,7 +25,7 @@
  * CHANGELOG
  *
  * Date (DD-MM-YYYY)            Author               Update
- * 27-08-2021               sonapraneeth_a      - Creation of file
+ * 05-09-2021               sonapraneeth_a      - Creation of file
  */
 // clang-format on
 

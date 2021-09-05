@@ -15,8 +15,8 @@
  * FILE DESCRIPTION
  *
  *        Filename: 1987__number-of-unique-good-subsequences/solutions.cpp
- *      Created on: 30 August 2021
- *   Last modified: 30 August 2021
+ *      Created on: 05 September 2021
+ *   Last modified: 05 September 2021
  *          Author: sonapraneeth_a
  *     Description: LeetCode submission for 'Number of Unique Good Subsequences' problem
  */
@@ -25,7 +25,7 @@
  * CHANGELOG
  *
  * Date (DD-MM-YYYY)            Author               Update
- * 30-08-2021               sonapraneeth_a      - Creation of file
+ * 05-09-2021               sonapraneeth_a      - Creation of file
  */
 // clang-format on
 
