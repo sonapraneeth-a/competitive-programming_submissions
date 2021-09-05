@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2021. Sona Praneeth Akula <sonapraneeth.akula@gmail.com>
  *
- * This file is part of leetcode practice(submit) in competitive programming.
+ * This file is part of binarysearch practice(submit) in competitive programming.
  *
  * This file cannot be copied and/or distributed without the express
  * permission of the copyright owner.
@@ -18,7 +18,7 @@
  *      Created on: EXPANDED_DATE
  *   Last modified: EXPANDED_DATE
  *          Author: AUTHOR_ALIAS
- *     Description: LeetCode submission for 'PROBLEM_TITLE' problem
+ *     Description: BinarySearch submission for 'PROBLEM_TITLE' problem
  */
 
 /**
@@ -32,26 +32,15 @@
 namespace solution_01 {
 // clang-format off
 /**
- * CLASS DESCRIPTION
+ * FUNCTION DESCRIPTION
  *
- * Submission link: https://leetcode.com/submissions/detail//
- * Status: .  /  test cases passed.
- * Runtime:  ms, faster than % of C++ online submissions
- * Memory usage:  MB, less than % of C++ online submissions
+ * Submission link: https://binarysearch.com/problems/PROBLEM_SLUG/submissions/
+ * Status:
+ * Runtime:  ms, faster than % in C++
  * Time complexity:
  * Space complexity:
  * Tags:
  * Categories:
- * Additional notes
- *  -
- */
-// clang-format on
-// clang-format off
-/**
- * FUNCTION DESCRIPTION
- *
- * Time complexity:
- * Space complexity:
  * Additional notes
  *  -
  */

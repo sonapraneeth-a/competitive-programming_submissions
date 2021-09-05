@@ -3,7 +3,7 @@ Problem Title: PROBLEM_ID. PROBLEM_TITLE
 Problem Difficulty: PROBLEM_DIFFICULTY
 Problem Url: https://binarysearch.com/problems/PROBLEM_SLUG/
 Problem Tags: PROBLEM_TAGS
-Solution Url: https://binarysearch.com/problems/PROBLEM_SLUG/
+Solution Url: https://binarysearch.com/problems/PROBLEM_SLUG/solutions/
 IsPremium: PROBLEM_PREMIUM
 Companies: PROBLEM_COMPANIES
 IsTemplate: No

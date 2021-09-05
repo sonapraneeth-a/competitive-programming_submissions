@@ -32,7 +32,8 @@ def update_file_line(line: str, problem: Problem) -> str:
                 break
     update_line = line
     question_keywords = [
-        "PROBLEM_CONTENT", "PROBLEM_TAGS", "PROBLEM_CODE_SNIPPET"]
+        "PROBLEM_CONTENT", "PROBLEM_TAGS", "PROBLEM_CODE_SNIPPET",
+        "PROBLEM_COMPANIES"]
     question = None
     if any(keyword in line for keyword in question_keywords):
         if problem.platform.lower() == "leetcode":
@@ -67,12 +68,13 @@ def update_file_line(line: str, problem: Problem) -> str:
         content = ""
         if not problem.is_premium:
             if problem.platform.lower() == "leetcode":
-                content = md(question['question']['content'], heading_style="ATX")
+                content = md(question['question']['content'],
+                             heading_style="ATX")
             elif problem.platform.lower() == "binarysearch":
                 content = md(question[0]['content'], heading_style="ATX")
             update_line = content
     if "PROBLEM_TAGS" in update_line:
-        tags = []
+        tags = ""
         if problem.platform.lower() == "leetcode":
             content = question['question']['topicTags']
             tags = ", ".join([info['name'] for info in content])
@@ -80,6 +82,12 @@ def update_file_line(line: str, problem: Problem) -> str:
             content = question[0]['topics']
             tags = ", ".join([info['tag'] for info in content])
         update_line = update_line.replace("PROBLEM_TAGS", tags)
+    if "PROBLEM_COMPANIES" in update_line:
+        companies = ""
+        if problem.platform.lower() == "binarysearch":
+            content = question[0]['companies']
+            companies = ", ".join([info['tag'].capitalize() for info in content])
+        update_line = update_line.replace("PROBLEM_COMPANIES", companies)
     if "PROBLEM_SIMILAR_QUESTIONS" in update_line:
         pass
     if "PROBLEM_CODE_SNIPPET" in update_line:
@@ -100,11 +108,12 @@ def create_file(
     file_type: str,
     template_file_path: str,
     overwrite: bool = False) -> None:
-    is_attempted, problem_directory, output_file_path = \
+    is_existing, is_attempted, problem_directory, output_file_path = \
         check_file(problem, output_directory, file_type, template_file_path)
-    if is_attempted or not overwrite:
+    if not overwrite and is_existing:
         print("File already setup for {0} for {1}. {2} at {3}".format(
-            file_type, problem.identifier, problem.title, output_file_path))
+            file_type, problem.identifier, problem.title,
+            os.path.abspath(output_file_path)))
     else:
         print("Setting up {0} for {1}. {2} at {3}"
               .format(file_type, problem.identifier, problem.title,
@@ -132,23 +141,24 @@ def check_file(
     template_file_path: str) -> (bool, str, str):
     problem_directory = str(problem.identifier) + "__" + problem.slug.lower()
     output_file_path = \
-        output_directory + "/" + problem_directory + "/" + file_type
+        output_directory + "/" + problem_directory.replace("*", "") + "/" + file_type
     if not os.path.exists(template_file_path):
         print("Template filepath: {0} doesn't exist".format(
             template_file_path))
         exit(-1)
     template_file_size = math.ceil(2.25 * os.path.getsize(template_file_path))
-    is_attempted = False
-    if os.path.exists(output_file_path) and \
-        os.path.getsize(output_file_path) >= template_file_size:
-        # print("Template filepath: {0}, size: {1}"
-        #       .format(template_file_path, template_file_size))
-        # print("Output file path: {0}, size: {1}"
-        #       .format(output_file_path, os.path.getsize(output_file_path)))
-        # print("File size: {0} {1}".format(
-        #     problem_directory, os.path.getsize(output_file_path)))
-        is_attempted = True
-    return is_attempted, problem_directory, output_file_path
+    is_attempted, is_existing = False, False
+    if os.path.exists(output_file_path):
+        is_existing = True
+        if os.path.getsize(output_file_path) >= template_file_size:
+            # print("Template filepath: {0}, size: {1}"
+            #       .format(template_file_path, template_file_size))
+            # print("Output file path: {0}, size: {1}"
+            #       .format(output_file_path, os.path.getsize(output_file_path)))
+            # print("File size: {0} {1}".format(
+            #     problem_directory, os.path.getsize(output_file_path)))
+            is_attempted = True
+    return is_existing, is_attempted, problem_directory, output_file_path
 
 
 def read_comment_block(lines: List[str], idx: int):
