@@ -1,3 +1,7 @@
+from functools import total_ordering
+
+
+@total_ordering
 class Problem(object):
     def __init__(self,
                  platform: str,
@@ -35,4 +39,18 @@ class Problem(object):
         self.explore_name = self.contest_name
         self.chapter_name = chapter_name.lower().replace(" ", "_")
         self.difficulty = difficulty.lower().capitalize()
+
+    def __eq__(self, other):
+        return int(self.identifier) == int(other.identifier)
+
+    def __lt__(self, other):
+        return int(self.identifier) < int(other.identifier)
+
+    def __str__(self):
+        answer = ""
+        answer += "--- Problem ---\n"
+        answer += "      ID: {0}\n".format(self.identifier)
+        answer += "   Title: {0}\n".format(self.title)
+        answer += "     URL: {0}\n".format(self.url)
+        return answer
 

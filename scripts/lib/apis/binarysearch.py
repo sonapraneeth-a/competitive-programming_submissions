@@ -3,14 +3,16 @@ import os
 from datetime import datetime
 import time
 from typing import Dict, List
+from slugify import slugify
 
 import requests
 
+from lib.apis.base import make_api_call, ApiEnum, BaseApi
 from lib.problem.base import Problem
 from lib.problem.binarysearch import BinarySearchProblem
 
 
-class BinarySearchApi:
+class BinarySearchApi(BaseApi):
     """Class handling requests to BinarySearch API
 
     Uses plain requests
@@ -23,10 +25,17 @@ class BinarySearchApi:
         ----------
         quiet
         """
-        self.levels = ['Easy', 'Medium', 'Hard', 'Harder']
-        self.colors = ['rgb(67, 160, 71)',
-                       'rgb(239, 108, 0)', 'rgb(233, 30, 99)', '']
-        self.quiet = quiet
+        super().__init__(quiet=quiet,
+                         levels=['Easy', 'Medium', 'Hard', 'Harder'],
+                         colors=['', '', '', ''])
+        # URLs
+        self.url_problems = \
+            'https://binarysearch.com/api/questionlist?list&orderBy=id&page={0}'
+        self.url_question = \
+            'https://binarysearch.com/api/publicquestions/?questionIds={0}'
+        # Filename formats
+        self.filename_questionData = "logs/binarysearch/questions/{0}__{1}.json"
+        self.filename_problems = "logs/binarysearch/problems.json"
 
     def get_question_info(self, problem: Problem,
                           force: bool = False) -> Dict:
@@ -39,29 +48,22 @@ class BinarySearchApi:
 
         Returns
         -------
-        Dict:
+        dict:
         """
-        filename = "logs/binarysearch/questions/{0}__{1}.json".format(
-            problem.identifier, problem.slug.replace("*", ""))
-        api_string = \
-            "https://binarysearch.com/api/publicquestions/?questionIds={0}"
-        current_timestamp = time.mktime(datetime.today().timetuple())
-        response = None
-        if force or not os.path.exists(filename) or \
-            (os.path.exists(filename) and
-             current_timestamp - os.path.getmtime(filename) > 604800):
-            response = json.loads(
-                requests.get(api_string.format(problem.identifier)).content)
-            with open(filename, "w") as write_file:
-                json.dump(response, write_file)
-        else:
-            with open(filename, "r") as read_file:
-                response = json.load(read_file)
+        response = make_api_call(url=self.url_question,
+                                 filename=self.filename_questionData.format(
+                                     problem.identifier,
+                                     slugify(problem.slug)),
+                                 api_type=ApiEnum.Default,
+                                 force=force)
+        if response is None:
+            print("Question data for {0}. {1} could not be retrieved".format(
+                problem.identifier, problem.title))
         question = response
         return question
 
     def get_algorithm_problems(self, force: bool = False) -> (
-        List[BinarySearchProblem], Dict):
+        List[BinarySearchProblem], dict):
         """
 
         Parameters
@@ -102,7 +104,7 @@ class BinarySearchApi:
             with open(filename, "r") as read_file:
                 response = json.load(read_file)
         if response is None:
-            print("Unable to retrieve info")
+            print("Could not retrieve problems list")
             return
         for item in response:
             problem = BinarySearchProblem(

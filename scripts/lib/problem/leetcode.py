@@ -53,17 +53,3 @@ class LeetCodeProblem(Problem):
 
     def __del__(self):
         pass
-
-    def __eq__(self, other):
-        return int(self.identifier) == int(other.identifier)
-
-    def __lt__(self, other):
-        return int(self.identifier) < int(other.identifier)
-
-    def __str__(self):
-        answer = ""
-        answer += "--- Problem ---\n"
-        answer += "      ID: {0}\n".format(self.identifier)
-        answer += "   Title: {0}\n".format(self.title)
-        answer += "Solution: {0}\n".format(self.solution_slug)
-        return answer

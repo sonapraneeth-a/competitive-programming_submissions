@@ -6,11 +6,12 @@ from typing import Dict, List
 
 import requests
 
+from lib.apis.base import BaseApi, make_api_call, ApiEnum
 from lib.problem.base import Problem
 from lib.problem.leetcode import LeetCodeProblem
 
 
-class LeetCodeApi:
+class LeetCodeApi(BaseApi):
     """Class handling requests to LeetCode API
 
     Uses graphql requests/plain requests
@@ -37,43 +38,45 @@ class LeetCodeApi:
             'accept-language': 'en-US,en;q=0.9',
             'cookie': 'csrftoken=SYt4auAHmprCYhMeGDZwbnE0hWoSLKRLHb0A7mMpbvoAEPvjYcIdL5LtaWhQJv6B; __cfduid=dc8614cf2c524abada1e54cfa8e118d271619065816; __cf_bm=08dec7596eec629845d4f3f39086483d491e2c40-1619324757-1800-AYKgjE4h5oPn/k7bslI317JZOCKGqrKvRQEJSKFM8EyY57yFeDgrM0KTqzs/c5RUfzN8A7VceydacsvxJjrmrp4=',
         }
-        self.levels = ['Easy', 'Medium', 'Hard']
-        self.colors = ['rgb(67, 160, 71)',
-                       'rgb(239, 108, 0)', 'rgb(233, 30, 99)']
-        self.quiet = quiet
+        super().__init__(quiet=quiet, levels=['Easy', 'Medium', 'Hard'],
+                         colors=['rgb(67, 160, 71)',
+                                 'rgb(239, 108, 0)', 'rgb(233, 30, 99)'])
+        # URLs
+        self.url_graphql = 'https://leetcode.com/graphql'
+        self.url_problems = 'https://leetcode.com/api/problems/algorithms/'
+        # Data
+        self.graphql_questionData = '{{"operationName":"questionData","variables":{{"titleSlug":\"{0}\"}},"query":"query questionData($titleSlug: String!) {{\\n  question(titleSlug: $titleSlug) {{\\n    questionId\\n    questionFrontendId\\n    boundTopicId\\n    title\\n    titleSlug\\n    content\\n    translatedTitle\\n    translatedContent\\n    isPaidOnly\\n    difficulty\\n    likes\\n    dislikes\\n    isLiked\\n    similarQuestions\\n    exampleTestcases\\n    contributors {{\\n      username\\n      profileUrl\\n      avatarUrl\\n      __typename\\n    }}\\n    topicTags {{\\n      name\\n      slug\\n      translatedName\\n      __typename\\n    }}\\n    companyTagStats\\n    codeSnippets {{\\n      lang\\n      langSlug\\n      code\\n      __typename\\n    }}\\n    stats\\n    hints\\n    solution {{\\n      id\\n      canSeeDetail\\n      paidOnly\\n      hasVideoSolution\\n      paidOnlyVideo\\n      __typename\\n    }}\\n    status\\n    sampleTestCase\\n    metaData\\n    judgerAvailable\\n    judgeType\\n    mysqlSchemas\\n    enableRunCode\\n    enableTestMode\\n    enableDebugger\\n    envInfo\\n    libraryUrl\\n    adminUrl\\n    __typename\\n  }}\\n}}\\n"}}'
+        # Filename formats
+        self.filename_questionData = "logs/leetcode/questions/{0}__{1}.json"
+        self.filename_problems = "logs/leetcode/problems-algorithms.json"
 
     def get_question_info(self, problem: Problem,
-                          force: bool = False) -> Dict:
+                          force: bool = False) -> dict:
         """
 
         Parameters
         ----------
-        question_slug: str
+        problem: str
         force: bool
 
         Returns
         -------
-        Dict:
+        dict:
         """
-        filename = "logs/leetcode/questions/{0}__{1}.json".format(
-            problem.identifier, problem.slug)
-        current_timestamp = time.mktime(datetime.today().timetuple())
-        response = None
-        if force or not os.path.exists(filename) or \
-            (os.path.exists(filename) and
-             current_timestamp - os.path.getmtime(filename) > 604800):
-            query = '{"operationName":"questionData","variables":{"titleSlug":\"' + problem.slug + '\"},"query":"query questionData($titleSlug: String!) {\\n  question(titleSlug: $titleSlug) {\\n    questionId\\n    questionFrontendId\\n    boundTopicId\\n    title\\n    titleSlug\\n    content\\n    translatedTitle\\n    translatedContent\\n    isPaidOnly\\n    difficulty\\n    likes\\n    dislikes\\n    isLiked\\n    similarQuestions\\n    exampleTestcases\\n    contributors {\\n      username\\n      profileUrl\\n      avatarUrl\\n      __typename\\n    }\\n    topicTags {\\n      name\\n      slug\\n      translatedName\\n      __typename\\n    }\\n    companyTagStats\\n    codeSnippets {\\n      lang\\n      langSlug\\n      code\\n      __typename\\n    }\\n    stats\\n    hints\\n    solution {\\n      id\\n      canSeeDetail\\n      paidOnly\\n      hasVideoSolution\\n      paidOnlyVideo\\n      __typename\\n    }\\n    status\\n    sampleTestCase\\n    metaData\\n    judgerAvailable\\n    judgeType\\n    mysqlSchemas\\n    enableRunCode\\n    enableTestMode\\n    enableDebugger\\n    envInfo\\n    libraryUrl\\n    adminUrl\\n    __typename\\n  }\\n}\\n"}'
-            response = requests.post(
-                'https://leetcode.com/graphql',
-                headers=self.headers,
-                data=query
-            ).content
-            response = json.loads(response)
-            with open(filename, "w") as write_file:
-                json.dump(response, write_file)
-        else:
-            with open(filename, "r") as read_file:
-                response = json.load(read_file)
+        if problem.platform.lower() != "leetcode":
+            print("This Api can be used only for LeetCode problems")
+            exit(1)
+        response = make_api_call(url=self.url_graphql,
+                                 filename=self.filename_questionData.format(
+                                     problem.identifier,
+                                     problem.slug),
+                                 api_type=ApiEnum.GraphQL, headers=self.headers,
+                                 data=self.graphql_questionData.format(
+                                     problem.slug),
+                                 force=force)
+        if response is None:
+            print("Question data for {0}. {1} could not be retrieved".format(
+                problem.identifier, problem.title))
         question = response['data']
         # markdown = md(question['content'], heading_style="ATX")
         # content = question['content']
@@ -96,28 +99,14 @@ class LeetCodeApi:
         -------
         Tuple(List[LeetCodeProblem], Dict)
         """
-        filename = "logs/leetcode/problems-algorithms.json"
         problems = []
         id_problem_dict = {}
-        response = None
-        current_timestamp = time.mktime(datetime.today().timetuple())
-        # 1 week
-        if force or not os.path.exists(filename) or \
-            (os.path.exists(filename) and
-             current_timestamp - os.path.getmtime(filename) > 604800):
-            if not self.quiet:
-                print("Querying from API")
-            response = json.loads(requests.get(
-                'https://leetcode.com/api/problems/algorithms/').content)
-            with open(filename, "w") as write_file:
-                json.dump(response, write_file)
-        else:
-            if not self.quiet:
-                print("Reading from file: {0}".format(filename))
-            with open(filename, "r") as read_file:
-                response = json.load(read_file)
+        response = make_api_call(url=self.url_problems,
+                                 filename=self.filename_problems,
+                                 api_type=ApiEnum.Default,
+                                 force=force)
         if response is None:
-            print("Unable to retrieve info")
+            print("Could not retrieve problems list")
             return
         for item in response['stat_status_pairs']:
             problem = LeetCodeProblem(

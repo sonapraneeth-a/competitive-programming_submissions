@@ -4,7 +4,7 @@ from lib.problem.base import Problem
 
 
 @total_ordering
-class BinarySearchProblem(Problem):
+class GoogleProblem(Problem):
     def __init__(self,
                  identifier: str,
                  title: str,
@@ -37,7 +37,7 @@ class BinarySearchProblem(Problem):
                 slug
             )
         super().__init__(
-            platform="BinarySearch",
+            platform="Google",
             identifier=identifier,
             title=title,
             url=url,
@@ -53,3 +53,17 @@ class BinarySearchProblem(Problem):
 
     def __del__(self):
         pass
+
+    def __eq__(self, other):
+        return int(self.identifier) == int(other.identifier)
+
+    def __lt__(self, other):
+        return int(self.identifier) < int(other.identifier)
+
+    def __str__(self):
+        answer = ""
+        answer += "--- Problem ---\n"
+        answer += "        ID: {0}\n".format(self.identifier)
+        answer += "     Title: {0}\n".format(self.title)
+        answer += "Difficulty: {0}\n".format(self.difficulty)
+        return answer
