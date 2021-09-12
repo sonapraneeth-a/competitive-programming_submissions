@@ -71,7 +71,7 @@ class Solution {
         unordered_map<double, int> ratio_map;
         for (const auto& rectangle : rectangles) {
             auto   numerator   = static_cast<double>(rectangle[0]);
-            auto   denominator = static_cast<double>(rectangle[2]);
+            auto   denominator = static_cast<double>(rectangle[1]);
             double ratio       = numerator / denominator;
             if (ratio_map.find(ratio) == ratio_map.end()) {
                 ratio_map.insert({ratio, 0});
