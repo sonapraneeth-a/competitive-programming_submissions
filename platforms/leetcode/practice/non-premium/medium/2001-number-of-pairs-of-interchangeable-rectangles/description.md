@@ -61,4 +61,5 @@ index (0-indexed):
 
 # Useful Discussions
 
--   []()
+-   [[Java] Use gcd and bit shift to avoid double precision loss](https://leetcode.com/problems/number-of-pairs-of-interchangeable-rectangles/discuss/1459226/Java-Use-gcd-and-bit-shift-to-avoid-double-precision-loss)
+-   [C++ EZ reverse iteration with unordered_map](https://leetcode.com/problems/number-of-pairs-of-interchangeable-rectangles/discuss/1459395/C%2B%2B-EZ-reverse-iteration-with-unordered_map)
