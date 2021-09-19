@@ -14,18 +14,18 @@
 /**
  * FILE DESCRIPTION
  *
- *        Filename: 2003__smallest-missing-genetic-value-in-each-subtree/solutions.cpp
- *      Created on: 12 September 2021
- *   Last modified: 12 September 2021
+ *        Filename: 2001__number-of-pairs-of-interchangeable-rectangles/solutions.cpp
+ *      Created on: 19 September 2021
+ *   Last modified: 19 September 2021
  *          Author: sonapraneeth_a
- *     Description: LeetCode submission for 'Smallest Missing Genetic Value in Each Subtree' problem
+ *     Description: LeetCode submission for 'Number of Pairs of Interchangeable Rectangles' problem
  */
 
 /**
  * CHANGELOG
  *
  * Date (DD-MM-YYYY)            Author               Update
- * 12-09-2021               sonapraneeth_a      - Creation of file
+ * 19-09-2021               sonapraneeth_a      - Creation of file
  */
 // clang-format on
 
@@ -58,7 +58,7 @@ namespace solution_01 {
 // clang-format on
 class Solution {
 public:
-    vector<int> smallestMissingValueSubtree(vector<int>& parents, vector<int>& nums) {
+    long long interchangeableRectangles(vector<vector<int>>& rectangles) {
         
     }
 };

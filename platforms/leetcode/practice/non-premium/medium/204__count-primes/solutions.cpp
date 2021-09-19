@@ -14,27 +14,20 @@
 /**
  * FILE DESCRIPTION
  *
- *        Filename: 2000__reverse-prefix-of-word/solutions.cpp
- *      Created on: 12 September 2021
- *   Last modified: 12 September 2021
+ *        Filename: 204__count-primes/solutions.cpp
+ *      Created on: 19 September 2021
+ *   Last modified: 19 September 2021
  *          Author: sonapraneeth_a
- *     Description: LeetCode submission for 'Reverse Prefix of Word' problem
+ *     Description: LeetCode submission for 'Count Primes' problem
  */
 
 /**
  * CHANGELOG
  *
  * Date (DD-MM-YYYY)            Author               Update
- * 12-09-2021               sonapraneeth_a      - Creation of file
+ * 19-09-2021               sonapraneeth_a      - Creation of file
  */
 // clang-format on
-
-#include <algorithm>
-#include <string>
-
-using std::find;
-using std::reverse;
-using std::string;
 
 namespace solution_01 {
 // clang-format off
@@ -53,24 +46,20 @@ namespace solution_01 {
  *  -
  */
 // clang-format on
+// clang-format off
+/**
+ * FUNCTION DESCRIPTION
+ *
+ * Time complexity:
+ * Space complexity:
+ * Additional notes
+ *  -
+ */
+// clang-format on
 class Solution {
- public:
-    // clang-format off
-    /**
-     * FUNCTION DESCRIPTION
-     *
-     * Time complexity:
-     * Space complexity:
-     * Additional notes
-     *  -
-     */
-    // clang-format on
-    string reversePrefix(string word, char ch) {
-        auto itr = find(begin(word), end(word), ch);
-        if (itr != end(word)) {
-            reverse(begin(word), itr + 1);
-        }
-        return word;
+public:
+    int countPrimes(int n) {
+        
     }
 };
 }  // namespace solution_01

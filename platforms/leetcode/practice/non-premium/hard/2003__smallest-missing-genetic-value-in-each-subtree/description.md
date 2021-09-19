@@ -2,7 +2,7 @@
 Problem Title: 2003. Smallest Missing Genetic Value in Each Subtree
 Problem Difficulty: Hard
 Problem Url: https://leetcode.com/problems/smallest-missing-genetic-value-in-each-subtree/
-Problem Tags: 
+Problem Tags: Dynamic Programming, Tree, Depth-First Search, Union Find
 Solution Url: https://leetcode.com/problems/smallest-missing-genetic-value-in-each-subtree/solution/
 IsPremium: No
 IsTemplate: No
