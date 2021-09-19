@@ -5,6 +5,8 @@ import shutil
 from datetime import date
 from typing import List
 
+from slugify import slugify
+
 from lib.apis.binarysearch import BinarySearchApi
 from lib.apis.leetcode import LeetCodeApi
 from lib.problem.base import Problem
@@ -139,9 +141,13 @@ def check_file(
     output_directory: str,
     file_type: str,
     template_file_path: str) -> (bool, str, str):
-    problem_directory = str(problem.identifier) + "__" + problem.slug.lower()
+    problem_directory = str(problem.identifier) + "__" + \
+                        slugify(problem.slug.lower())
     output_file_path = \
-        output_directory + "/" + problem_directory.replace("*", "") + "/" + file_type
+        output_directory + "/" \
+        + ("non-" if problem.is_premium is False else "") \
+        + "premium/" + problem.difficulty.lower() + "/" \
+        + problem_directory + "/" + file_type
     if not os.path.exists(template_file_path):
         print("Template filepath: {0} doesn't exist".format(
             template_file_path))

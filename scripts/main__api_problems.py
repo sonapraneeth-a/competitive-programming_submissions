@@ -22,6 +22,9 @@ if __name__ == "__main__":
                         default=False,
                         help="Retrieve top n problems. Default: False"
                              "Sorted in ascending order based on problem id")
+    parser.add_argument("-f", "--force", action="store_true",
+                        default=False,
+                        help="Force API call instead from cache")
     parser.add_argument("-c", "--count", type=int,
                         default=2,
                         help="Number of problems to retrieve. Default: -1."

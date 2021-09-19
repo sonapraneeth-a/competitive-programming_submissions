@@ -1,5 +1,6 @@
 import argparse
 import os
+import shutil
 
 from lib.apis.binarysearch import BinarySearchApi
 from lib.apis.leetcode import LeetCodeApi
@@ -7,7 +8,7 @@ from lib.file.leetcode import create_file, check_file
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--platform", default="BinarySearch",
+    parser.add_argument("-p", "--platform", default="LeetCode",
                         required=False,
                         help="Which platform the script should run? "
                              "Note: Input is case-sensitive "
@@ -24,6 +25,9 @@ if __name__ == "__main__":
     parser.add_argument("-r", "--reverse", action="store_true",
                         default=True,
                         help="Sort the retrieved problems")
+    parser.add_argument("-f", "--force", action="store_true",
+                        default=False,
+                        help="Force API usage")
     parser.add_argument("-q", "--quiet", action="store_true",
                         default=False,
                         help="Suppress verbose messages. Default: False")
@@ -38,7 +42,7 @@ if __name__ == "__main__":
         platform_api = LeetCodeApi(quiet=args.quiet)
     elif args.platform.lower() == "binarysearch":
         platform_api = BinarySearchApi(quiet=args.quiet)
-    algorithm_problems, _ = platform_api.get_algorithm_problems(force=False)
+    algorithm_problems, _ = platform_api.get_algorithm_problems(force=args.force)
     algorithm_problems.sort(key=lambda x: int(x.identifier),
                             reverse=args.reverse)
     number_of_problems = len(
@@ -55,10 +59,14 @@ if __name__ == "__main__":
         "\\templates" + "\\{0}\\".format(args.platform.lower()) \
         + "description.md"
     # for problem in algorithm_problems[:number_of_problems]:
-    #     is_existing, is_attempted, _, _ = \
+    #     is_existing, is_attempted, _, output_file_path = \
     #         check_file(problem, submit_directory,
     #                    "solutions.cpp",
     #                    root + template_solutions_file_path)
+    #     dir_name = os.path.dirname(output_file_path)
+    #     if os.path.exists(dir_name) is True:
+    #         print("Deleting directory: {0}".format(dir_name))
+    #         shutil.rmtree(dir_name)
     #     if is_attempted:
     #         print("{0}. {1}".format(problem.identifier, problem.title))
     for problem in algorithm_problems[:number_of_problems]:
